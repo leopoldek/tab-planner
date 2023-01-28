@@ -1,0 +1,77 @@
+html, body {
+  margin: 0px;
+}
+
+.hidden {
+  display: none;
+}
+
+.row {
+  display: flex;
+  flex-flow: row;
+}
+
+.column {
+  display: flex;
+  flex-flow: column;
+}
+
+.fill {
+  flex: 1 1 auto;
+}
+
+.row.stretch > *, .column.stretch > * {
+  flex: 1;
+}
+
+.buttons button {
+  font-size: 1.5em;
+}
+
+input {
+  box-sizing: border-box;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=text]:focus{
+   outline: none;
+}
+
+label {
+  cursor: pointer;
+  text-align: center;
+  flex-basis: 1.5em;
+}
+
+input:checked + label {
+  background-color: #AFD2F2;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: #E5F2F2;
+}
+
+button:hover {
+  background-color: #CFF2F2;
+}
+
+#filter-row * {
+  padding: 2px;
+  border: 1px solid grey;
+}
+
+#filter-row label:hover {
+  color: lightcoral;
+}
+
+option:hover {
+  /*text-decoration: underline red;*/
+  /*border: 2px dashed red;*/
+  /*font-weight: 500;*/
+  text-shadow: 1px 1px 2px red;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="planner_view.css"/>
+    <link rel="stylesheet" href="../icons/bootstrap-icons.css"/>
+</head>
+<body>
+    <div class="row" style="min-height: 6in;">
+        <div class="column">
+            <select class="fill" id="groups" size="2" style="min-width: 100%; width: 1in;"></select>
+            <canvas id="color-picker" style="display: none;"></canvas>
+            <input type="text" id="name-box" style="display: none; width: 0; min-width: 100%;"/>
+            <div class="row stretch buttons" id="button-row">
+                <button class="bi-folder-plus" title="New group" id="new"></button>
+                <button class="bi-folder-minus" title="Delete selected group" id="delete"></button>
+                <button class="bi-cursor-text" title="Rename selected group" id="rename"></button>
+                <button class="bi-paint-bucket" title="Change the color of a group" id="recolor"></button>
+                <div class="column stretch" style="font-size: 0.5em;">
+                    <button class="bi-chevron-up" title="Move group up" id="reorder-up" style="padding: 0 6px;"></button>
+                    <button class="bi-chevron-down" title="Down group down" id="reorder-down" style="padding: 0 6px;"></button>
+                </div>
+            </div>
+            <div class="row stretch buttons">
+                <button class="bi-folder-symlink" title="Open the selected group" id="open"></button>
+                <button class="bi-snow" title="Unload tab(s)" id="unload"></button>
+                <button class="bi-pencil" title="Set selected tabs to the selected group" id="set"></button>
+            </div>
+        </div>
+        <div class="column" style="width: 10in;">
+            <div class="row" id="filter-row">
+                <input type="checkbox" id="filter-current"/>
+                <label for="filter-current" class="bi-ui-checks-grid" title="Filter by selected group"></label>
+                
+                <input type="checkbox" id="filter-media"/>
+                <label for="filter-media" class="bi-volume-up-fill" title="Filter by playing media"></label>
+                
+                <input type="checkbox" id="filter-loaded"/>
+                <label for="filter-loaded" class="bi-sd-card-fill" title="Filter by loaded"></label>
+                
+                <input type="text" class="fill" id="search-box" placeholder="Filter Tabs..."/>
+                <button class="bi-arrow-repeat" title="Inverse selection" id="inverse" style="padding: 0 6px;"></button>
+                <button class="bi-gear-fill" title="Open settings" id="settings" style="padding: 0 6px;"></button>
+            </div>
+            <select class="fill" id="tab-list" style="width: 100%;" multiple></select>
+        </div>
+    </div>
+    <script src="planner_view.js" type="module"></script>
+</body>
+</html>

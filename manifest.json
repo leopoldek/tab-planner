@@ -1,0 +1,36 @@
+{
+    "description": "Allows you to sort and group tabs.",
+    "manifest_version": 2,
+    "name": "Tab Planner",
+    "version": "1.0",
+    "permissions": ["tabs", "tabHide", "sessions", "storage", "menus"],
+    "optional_permissions": [],
+    "icons": {
+        "16": "icons/icon_plain.svg",
+        "24": "icons/icon_plain.svg",
+        "32": "icons/icon_plain.svg",
+        "48": "icons/icon_plain.svg",
+        "64": "icons/icon_plain.svg",
+        "96": "icons/icon_plain.svg",
+        "128": "icons/icon_plain.svg"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "planner@leopoldek.com",
+            "strict_min_version": "78.0"
+        }
+    },
+    "background": {
+        "page": "background.html",
+        "persistent": false
+    },
+    "browser_action": {
+        "default_icon": "icons/icon_plain.svg",
+        "default_title": "Tab Planner",
+        "default_popup": "popup/planner_view.html"
+    },
+    "options_ui": {
+        "page": "options/options.html",
+        "browser_style": true
+    }
+}

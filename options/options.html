@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="water.min.css"/>
+    <link rel="stylesheet" href="options.css"/>
+</head>
+<body>
+    <h1>Planner Settings</h1>
+    <label title="When switching to a group, any tabs that get hid in the process are also unloaded to save system resources."><input type="checkbox" id="unload-hidden">Unload hidden tabs.</label>
+    <label title="When switching to a tab from the popup menu, make all tabs visible instead of just the tab's group."><input type="checkbox" id="switch-global">Switch to all tabs.</label>
+    <label title="If enabled and the total tab count is greater than this option, the badge next to the extension button will turn red to warn you that you have too many tabs open."><input type="checkbox" id="warn-tab-count-show">Total tab count warning.</label>
+    <input type="number" id="warn-tab-count" min="0"></input>
+    <!--
+    <label title="Unloads tabs after a certain amount of seconds of being unvisited. Does not include tabs playing media."><input type="checkbox" data-show="unload-tab-timeout">Tab unload timer.</label>
+    <input type="number" id="unload-tab-timeout" min="0" title="Time in seconds."></input>
+    -->
+    
+    <script src="options.js" type="module"></script>
+</body>
+</html>
