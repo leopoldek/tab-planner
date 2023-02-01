@@ -1,5 +1,7 @@
 # Tab Planner
-An extension for viewing, filtering & organizing your tabs into groups.
+A web browser extension for viewing, filtering & organizing your tabs into groups.
+
+Available for Firefox here: https://addons.mozilla.org/firefox/addon/tab-planner/
 
 ## Features
 - Filter tabs by title and attributes to find tabs quickly.
