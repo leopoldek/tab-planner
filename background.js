@@ -46,7 +46,13 @@ browser.menus.onClicked.addListener((info, tab) => {
     browser.tabs.discard(tab.id);
 });
 
+function onLoad() {
+    browser.browserAction.setBadgeTextColor({"color": "white"});
+    updateCount();
+}
+
 browser.runtime.onInstalled.addListener(details => {
+    onLoad();
     browser.menus.create({
         "id": "unload",
         "title": "Unload Tab",
@@ -54,5 +60,4 @@ browser.runtime.onInstalled.addListener(details => {
     });
 });
 
-browser.browserAction.setBadgeTextColor({"color": "white"});
-updateCount();
+browser.runtime.onStartup.addListener(onLoad);
