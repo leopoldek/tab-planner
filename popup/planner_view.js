@@ -6,6 +6,13 @@ planner.renderGroups();
 planner.renderTabs();
 //document.getElementById("tab-list").style.width = window.getComputedStyle("tab-list").getPropertyValue('width');
 
+function scrollToActive() {
+	const tab_index = planner.tabs.findIndex(tab => tab.data.active);
+	if (tab_index === -1) return;
+	document.getElementById("tab-list")[tab_index].scrollIntoView({ behavior: "instant", block: "center", inline: "nearest" });
+}
+scrollToActive();
+
 document.addEventListener("dblclick", async (e) => {
 	if (e.target.tagName !== "OPTION") return;
 	if (e.target.closest("#groups")) {
@@ -24,9 +31,9 @@ document.addEventListener("auxclick", (e) => {
 	if (e.button !== 1 || e.target.tagName !== "OPTION") return;
 	if (e.target.closest("#tab-list")) {
 		// Close one tab.
-		planner.removeTab(e.target.value);
 		const tab_list = document.getElementById("tab-list");
 		const scroll = tab_list.scrollTop;
+		planner.removeTab(e.target.value);
 		planner.renderGroups();
 		planner.renderTabs();
 		filterTabs();
@@ -110,6 +117,8 @@ function moveGroup(offset) {
 	document.getElementById("groups").value = name;
 }
 
+document.getElementById("active").onclick = scrollToActive;
+
 document.getElementById("inverse").onclick = e => {
 	const tab_list = document.getElementById("tab-list");
 	const scroll = tab_list.scrollTop;
@@ -129,10 +138,17 @@ function filterTabs() {
 	const group_only = document.getElementById("filter-current").checked;
 	const media_only = document.getElementById("filter-media").checked;
 	const loaded_only = document.getElementById("filter-loaded").checked;
+	const duplicates_only = document.getElementById("filter-duplicates").checked;
 	const group_name = document.getElementById("groups").value;
 	var search = document.getElementById("search-box").value.toLowerCase().match(/\S+/g);
 	if (search === null) search = [];
-	document.getElementById("tab-list").childNodes.forEach((node, index) => {
+	const tab_list = document.getElementById("tab-list");
+	var urls = {};
+	if (duplicates_only) tab_list.childNodes.forEach((node, index) => {
+		const url = planner.tabs[index].data.url;
+		if (url in urls) urls[url] += 1; else urls[url] = 1;
+	});
+	tab_list.childNodes.forEach((node, index) => {
 		const tab = planner.tabs[index];
 		var hide = false;
 		const title = node.title.toLowerCase();
@@ -142,6 +158,7 @@ function filterTabs() {
 				break;
 			}
 		}
+		if (duplicates_only) hide ||= urls[tab.data.url] === 1;
 		hide ||= group_only && tab.group !== group_name;
 		hide ||= media_only && !(tab.data.audible || tab.data.mutedInfo.muted);
 		hide ||= loaded_only && tab.data.discarded;
@@ -172,6 +189,7 @@ function pollInputText(initial_text = "") {
 document.getElementById("groups").onchange = filterTabs;
 document.getElementById("search-box").oninput = filterTabs;
 document.getElementById("filter-current").onchange = filterTabs;
+document.getElementById("filter-duplicates").onchange = filterTabs;
 document.getElementById("filter-media").onchange = filterTabs;
 document.getElementById("filter-loaded").onchange = filterTabs;
 document.getElementById("tab-list").onchange = () => planner.renderTabs();
@@ -235,5 +253,3 @@ function pollColorPicker(initial = [255, 0, 0]) {
 	    canvas.addEventListener("click", listener);
 	});
 }
-
-renderColorPicker();

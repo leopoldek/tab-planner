@@ -18,7 +18,7 @@
                 <button class="bi-paint-bucket" title="Change the color of a group" id="recolor"></button>
                 <div class="column stretch" style="font-size: 0.5em;">
                     <button class="bi-chevron-up" title="Move group up" id="reorder-up" style="padding: 0 6px;"></button>
-                    <button class="bi-chevron-down" title="Down group down" id="reorder-down" style="padding: 0 6px;"></button>
+                    <button class="bi-chevron-down" title="Move group down" id="reorder-down" style="padding: 0 6px;"></button>
                 </div>
             </div>
             <div class="row stretch buttons">
@@ -38,7 +38,11 @@
                 <input type="checkbox" id="filter-loaded"/>
                 <label for="filter-loaded" class="bi-sd-card-fill" title="Filter by loaded"></label>
                 
+                <input type="checkbox" id="filter-duplicates"/>
+                <label for="filter-duplicates" class="bi-stack" title="Filter by duplicates"></label>
+                
                 <input type="text" class="fill" id="search-box" placeholder="Filter Tabs..."/>
+                <button class="bi-house" title="Return to active tab" id="active" style="padding: 0 6px;"></button>
                 <button class="bi-arrow-repeat" title="Inverse selection" id="inverse" style="padding: 0 6px;"></button>
                 <button class="bi-gear-fill" title="Open settings" id="settings" style="padding: 0 6px;"></button>
             </div>

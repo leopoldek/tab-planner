@@ -47,17 +47,18 @@ browser.menus.onClicked.addListener((info, tab) => {
 });
 
 function onLoad() {
+    browser.menus.create({
+       "id": "unload",
+       "title": "Unload Tab",
+       "contexts": ["tab"]
+    });
     browser.browserAction.setBadgeTextColor({"color": "white"});
     updateCount();
 }
-
-browser.runtime.onInstalled.addListener(details => {
-    onLoad();
-    browser.menus.create({
-        "id": "unload",
-        "title": "Unload Tab",
-        "contexts": ["tab"]
-    });
-});
-
+// See: https://bugzilla.mozilla.org/show_bug.cgi?id=1817287
+// See: https://bugzilla.mozilla.org/show_bug.cgi?id=1771328
+// See: https://github.com/w3c/webextensions/issues/353
+//browser.runtime.onEnabled.addListener(onLoad);
+browser.runtime.onInstalled.addListener(onLoad);
 browser.runtime.onStartup.addListener(onLoad);
+

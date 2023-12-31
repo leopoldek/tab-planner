@@ -50,8 +50,9 @@ function rgbToHsl(r, g, b){
 
 // TODO: Move render funcs into planner_view.js
 // TODO: Have a active/archived tab for groups. Archived tabs are saved but not currently opened.
-// TODO: Auto place certain domains in a group.
+// TODO: Auto place certain domains in a group. Have a rule-based filter like .gitignore. Use a text area to edit and save the text in a local storage.
 // TODO: Undo/Redo feature.
+// TODO: Way to move tabs in the planner view.
 export class Planner {
     tabs;
     groups;
@@ -205,16 +206,18 @@ export class Planner {
         this.groups.splice(new_index, 0, group);
     }
     
-    removeTab(index) {
+    async removeTab(index) {
         const id = this.tabs[index].data.id;
         this.tabs.splice(index, 1);
-        return browser.tabs.remove(id);
+        await browser.tabs.remove(id);
+        await this.reloadTabs();
     }
     
-    removeTabs(indices) {
+    async removeTabs(indices) {
         const ids = indices.map(index => this.tabs[index].data.id);
         indices.sort().reverse().forEach(index => this.tabs.splice(index, 1));
-        return browser.tabs.remove(ids);
+        await browser.tabs.remove(ids);
+        await this.reloadTabs();
     }
     
     renderGroups() {
@@ -249,7 +252,7 @@ export class Planner {
             const color = this.getGroupColor(tab.group);
             element.setAttribute("value", i);
             element.setAttribute("style", `background-color: rgb(${color[0]}, ${color[1]}, ${color[2]}); color: ${element.selected ? "#0000FF" : "black"};`);
-            element.setAttribute("title", tab.data.title);
+            element.setAttribute("title", tab.data.title + "\n" + tab.data.url);
             element.textContent = tab.data.title;
         };
         const tab_list = document.getElementById("tab-list");
