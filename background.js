@@ -1,4 +1,4 @@
-import { Planner, setBadge } from "./tabs.js";
+import { Planner, parseRules, setBadge } from "./tabs.js";
 
 async function updateCount(tabId, isOnRemoved) {
     let tabs = await browser.tabs.query({hidden: false});
@@ -37,6 +37,19 @@ browser.tabs.onRemoved.addListener(async (id) => {
     }
 });
 
+browser.tabs.onUpdated.addListener(async (id, info, tab) => {
+    const rules = (await browser.storage.local.get("rules")).rules;
+    if (rules === undefined) return;
+    const group = parseRules(rules, tab.url, tab.title);
+    if (group !== null) browser.sessions.setTabValue(id, "group", group);
+}, {properties: ["url"]});
+
+browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    if (!("ruletext" in message)) return;
+    var planner = await Planner.init();
+    planner.updateRules(message["ruletext"]);
+});
+
 //browser.tabs.onMoved.addListener((id, info) => {
 //    
 //});
@@ -48,9 +61,9 @@ browser.menus.onClicked.addListener((info, tab) => {
 
 function onLoad() {
     browser.menus.create({
-       "id": "unload",
-       "title": "Unload Tab",
-       "contexts": ["tab"]
+        "id": "unload",
+        "title": "Unload Tab",
+        "contexts": ["tab"]
     });
     browser.browserAction.setBadgeTextColor({"color": "white"});
     updateCount();

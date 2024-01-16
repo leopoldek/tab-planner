@@ -7,8 +7,8 @@ function setSettings() {
 }
 
 function intSetting(name, onchange = null) {
-    const text = document.getElementById("warn-tab-count");
-    const toggle = document.getElementById("warn-tab-count" + "-show");
+    const text = document.getElementById(name);
+    const toggle = document.getElementById(name + "-show");
     text.value = Math.abs(settings[name]);
     text.oninput = async () => {
         if (!/^\d+$/.test(text.value)) {

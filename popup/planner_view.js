@@ -134,6 +134,26 @@ document.getElementById("settings").onclick = e => {
 	window.close();
 };
 
+document.getElementById("show-rules").onclick = e => {
+	const tab_list = document.getElementById("tab-list");
+	const rules = document.getElementById("rules");
+	const checked = e.target.checked;
+	tab_list.hidden = checked;
+	rules.hidden = !checked;
+	if (!checked) {
+		planner.updateRules(rules.value);
+		planner.renderGroups();
+        planner.renderTabs();
+		filterTabs();
+	}
+};
+
+document.onvisibilitychange = e => {
+	if (!document.getElementById("show-rules").checked) return;
+	// We have to do it in the background script because updateRules doesn't work in this event.
+	browser.runtime.sendMessage({ruletext: document.getElementById("rules").value});
+};
+
 function filterTabs() {
 	const group_only = document.getElementById("filter-current").checked;
 	const media_only = document.getElementById("filter-media").checked;
@@ -253,3 +273,5 @@ function pollColorPicker(initial = [255, 0, 0]) {
 	    canvas.addEventListener("click", listener);
 	});
 }
+
+document.getElementById("rules").value = (await browser.storage.local.get("ruletext")).ruletext;

@@ -44,9 +44,12 @@
                 <input type="text" class="fill" id="search-box" placeholder="Filter Tabs..."/>
                 <button class="bi-house" title="Return to active tab" id="active" style="padding: 0 6px;"></button>
                 <button class="bi-arrow-repeat" title="Inverse selection" id="inverse" style="padding: 0 6px;"></button>
-                <button class="bi-gear-fill" title="Open settings" id="settings" style="padding: 0 6px;"></button>
+                <button class="bi-tools" title="Open settings" id="settings" style="padding: 0 6px;"></button>
+                <input type="checkbox" id="show-rules"/>
+                <label for="show-rules" class="bi-rulers" title="Show auto group rules"></label>
             </div>
             <select class="fill" id="tab-list" style="width: 100%;" multiple></select>
+            <textarea hidden placeholder="Place group rules here. Example:&#10;[video]&#10;twitch.tv&#10;youtube.com&#10;[search]&#10;google.com" id="rules" spellcheck="false" style="resize: none; height: 100%;"></textarea>
         </div>
     </div>
     <script src="planner_view.js" type="module"></script>

@@ -48,11 +48,29 @@ function rgbToHsl(r, g, b){
     return [h, s, l];
 }
 
+export function parseRules(rules, url, title) {
+    url = url.toLowerCase();
+    title = title.toLowerCase();
+    for (const [group, rulelist] of Object.entries(rules)) {
+        for (const rule of rulelist) {
+            if (rule.charAt(0) === '!') {
+                if (title.includes(rule.substr(1))) return group;
+            } else {
+                if (url.includes(rule)) return group;
+            }
+        }
+    }
+    return null;
+}
+
 // TODO: Move render funcs into planner_view.js
 // TODO: Have a active/archived tab for groups. Archived tabs are saved but not currently opened.
-// TODO: Auto place certain domains in a group. Have a rule-based filter like .gitignore. Use a text area to edit and save the text in a local storage.
 // TODO: Undo/Redo feature.
 // TODO: Way to move tabs in the planner view.
+// TODO: Add a context menu when right clicking on page to change group using dropdown submenu radio options. (menus.ContextType.all)
+// Use menus.onShown to populate the menu at click time. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/menus/onShown
+// TODO: If user manually sets a tabs group, exempt it from auto grouping with a modified flag.
+// Have an option to reset group. (if tab isn't in the ruleset, dont change the group but clear the modified flag.)
 export class Planner {
     tabs;
     groups;
@@ -103,6 +121,7 @@ export class Planner {
     }
     
     containsGroup(name) {
+        if (name === "") return true;
         return this.getGroupIndex(name) !== -1;
     }
     
@@ -121,7 +140,7 @@ export class Planner {
     }
     
     async openGroup(name, custom_tab_id = null) {
-        if (name !== "" && !this.containsGroup(name)) return;
+        if (!this.containsGroup(name)) return;
         
         const current_group = this.groups.find(group => group.name === this.current);
         const active_tab = this.tabs.find(tab => tab.data.active);
@@ -161,12 +180,12 @@ export class Planner {
     }
     
     setTab(index, group) {
+        if (this.tabs[index].group === group) return;
         this.tabs[index].group = group;
         this.tabs[index].changed = true;
     }
     
     create(name) {
-        if (name === "") return;
         if (this.containsGroup(name)) return;
         
         const color = stringToHexColor(name);
@@ -218,6 +237,30 @@ export class Planner {
         indices.sort().reverse().forEach(index => this.tabs.splice(index, 1));
         await browser.tabs.remove(ids);
         await this.reloadTabs();
+    }
+    
+    updateRules(ruletext) {
+        const rulelist = ruletext.split("\n");
+        var group = "";
+        var rules = {};
+        for (const rule of rulelist) {
+            if (rule.length === 0) {
+                continue;
+            } else if (rule.length >= 2 && rule.charAt(0) === '/' && rule.charAt(1) === '/') {
+                continue;
+            } else if (rule.length >= 2 && rule.charAt(0) === '[' && rule.charAt(rule.length - 1) === ']') {
+                group = rule.substr(1, rule.length - 2);
+            } else if (this.containsGroup(group)) {
+                if (!(group in rules)) rules[group] = [];
+                rules[group].push(rule.toLowerCase());
+            }
+        }
+        browser.storage.local.set({"ruletext": ruletext, "rules": rules});
+        for (let i = 0; i < this.tabs.length; i++) {
+            const new_group = parseRules(rules, this.tabs[i].data.url, this.tabs[i].data.title);
+            if (new_group !== null) this.setTab(i, new_group);
+        }
+        this.persist();
     }
     
     renderGroups() {
