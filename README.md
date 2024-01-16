@@ -29,6 +29,19 @@ Available for Firefox here: https://addons.mozilla.org/firefox/addon/tab-planner
 15. Invert Selection: All tabs that are selected will be unselected and vice-versa.
 16. Open Preferences: Opens the preferences page for this extension.
 
+### Auto Groups
+When navigating to a new site, you can tell the addon to automatically put certain urls/titles into a group.
+- `//` creates a comment for that line. Must appear at the front of the line.
+- `[]` sets the group that next matches will point to. Use empty brackets to denote that matches should be uncategorized (or place it at the start of the rules).
+- `!` tells the auto grouper to match the title instead of the url.
+```
+url_match_for_uncategorized
+// This is a comment.
+[Group Header]
+url_match
+!title_match
+```
+
 ## Permissions
 - tabs: For managing your tabs.
 - tabHide: For switching to different groups of tabs.

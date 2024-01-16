@@ -42,7 +42,7 @@ browser.tabs.onUpdated.addListener(async (id, info, tab) => {
     if (rules === undefined) return;
     const group = parseRules(rules, tab.url, tab.title);
     if (group !== null) browser.sessions.setTabValue(id, "group", group);
-}, {properties: ["url"]});
+}, {properties: ["url", "title"]});
 
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     if (!("ruletext" in message)) return;
