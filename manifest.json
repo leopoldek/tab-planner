@@ -2,7 +2,7 @@
     "description": "Allows you to sort and group tabs.",
     "manifest_version": 2,
     "name": "Tab Planner",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "permissions": ["tabs", "tabHide", "sessions", "storage", "menus"],
     "optional_permissions": [],
     "icons": {
@@ -27,7 +27,8 @@
     "browser_action": {
         "default_icon": "icons/icon_plain.svg",
         "default_title": "Tab Planner",
-        "default_popup": "popup/planner_view.html"
+        "default_popup": "popup/planner_view.html",
+        "default_area": "navbar"
     },
     "options_ui": {
         "page": "options/options.html",

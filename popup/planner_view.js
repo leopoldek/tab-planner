@@ -274,4 +274,5 @@ function pollColorPicker(initial = [255, 0, 0]) {
 	});
 }
 
-document.getElementById("rules").value = (await browser.storage.local.get("ruletext")).ruletext;
+const ruletext = (await browser.storage.local.get("ruletext")).ruletext;
+if (ruletext !== undefined) document.getElementById("rules").value = ruletext;
