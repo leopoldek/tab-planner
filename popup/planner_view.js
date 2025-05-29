@@ -129,6 +129,16 @@ document.getElementById("inverse").onclick = e => {
 	planner.renderTabs();
 };
 
+document.getElementById("close").onclick = e => {
+	const tab_list = document.getElementById("tab-list");
+	const scroll = tab_list.scrollTop;
+	planner.removeTabs(Array.from(tab_list.selectedOptions).map(selected => selected.value));
+	planner.renderGroups();
+	planner.renderTabs();
+	filterTabs();
+	tab_list.scrollTop = scroll;
+};
+
 document.getElementById("settings").onclick = e => {
 	browser.runtime.openOptionsPage();
 	window.close();

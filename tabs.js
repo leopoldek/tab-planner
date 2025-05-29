@@ -98,8 +98,11 @@ export class Planner {
     }
     
     getGroupColor(name) {
-        if (name === "") return [255, 255, 255];
-        return this.groups[this.getGroupIndex(name)].color;
+        const i = this.getGroupIndex(name);
+        if (i === -1) {
+            return [255, 255, 255];
+        }
+        return this.groups[i].color;
     }
     
     setGroupColor(name, color) {
